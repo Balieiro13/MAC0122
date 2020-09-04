@@ -59,10 +59,10 @@ def imagem_nova(nlin, ncol, valor):
     [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
     >>> 
     '''
-    carregado  = [[valor for i in range(ncol)] for i in range(nlin)]
+    nova  = [[valor for i in range(ncol)] for i in range(nlin)]
     
 
-    return carregado
+    return nova
 
     print("imagem_nova(): Vixe! Essa função ainda não foi feita.")
 

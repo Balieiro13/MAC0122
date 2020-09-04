@@ -8,8 +8,8 @@
 
 '''
 
-    Nome:
-    NUSP:
+    Nome: André Balieiro
+    NUSP: 9365810
 
     Ao preencher esse cabeçalho com o meu nome e o meu número USP,
     declaro que todas as partes originais desse exercício programa (EP)
@@ -59,10 +59,12 @@ def imagem_nova(nlin, ncol, valor):
     [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
     >>> 
     '''
+##################################### resposta ###################################
     nova  = [[valor for i in range(ncol)] for i in range(nlin)]
     
 
     return nova
+##################################### resposta ###################################
 
     print("imagem_nova(): Vixe! Essa função ainda não foi feita.")
 
@@ -88,6 +90,7 @@ def imagem_carrega(dest, orig):
     >>> tt
     [[777, -122, 3], [1, 2, 3]]
     '''
+##################################### resposta ###################################   
     carreg = dest
 
     for i in range(len(orig)):
@@ -95,6 +98,8 @@ def imagem_carrega(dest, orig):
             dest[i][j] = orig[i][j]
 
     return carreg
+##################################### resposta ###################################
+
     print("imagem_carrega(): Vixe! Essa função ainda não foi feita.")
 
 #--------------------------------------------------------------------------        
@@ -117,10 +122,13 @@ def imagem_clone(imagem):
     [[111111, -122, 3], [1, 2, 3]]
     >>> 
     '''
+##################################### resposta ###################################
     clone = imagem_nova(len(imagem), len(imagem[0]), 0)
     imagem_carrega(clone, imagem)
     
     return clone
+##################################### resposta ###################################
+
     print("imagem_clone(): Vixe! Essa função ainda não foi feita.")
 
 #--------------------------------------------------------------------------        
@@ -148,14 +156,19 @@ def imagem_regiao(imagem, left, top, right, bottom):
                        [1, 2, 3, 4, 5] ], 1, 2, 3, 4)
     [[9,8], [2,3]]
     '''
+###################################### resposta ###################################
     recorte = imagem_nova( bottom - top, right - left, 0)
     a = 0
+
     for i in range(top, bottom):
         recorte[a] = imagem[i][left:right]
         a += 1
         if a == len(recorte):
             break
+
     return recorte 
+##################################### resposta ###################################
+
     print("imagem_regiao(): Vixe! Essa função ainda não foi feita.")
 
 #--------------------------------------------------------------------------            

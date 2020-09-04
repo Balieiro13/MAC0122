@@ -59,16 +59,10 @@ def imagem_nova(nlin, ncol, valor):
     [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
     >>> 
     '''
-    adlin = []
-    adcol = []
+    carregado  = [[valor for i in range(ncol)] for i in range(nlin)]
+    
 
-    for i in range(ncol):
-        adcol.append(valor)
-
-    for i in range(nlin):
-        adlin.append(adcol)
-
-    return adlin
+    return carregado
 
     print("imagem_nova(): Vixe! Essa função ainda não foi feita.")
 
@@ -94,11 +88,12 @@ def imagem_carrega(dest, orig):
     >>> tt
     [[777, -122, 3], [1, 2, 3]]
     '''
+    a = dest
     for i in range(len(orig)):
         for j in range(len(orig[0])):
             dest[i][j] = orig[i][j]
-
-    #print("imagem_carrega(): Vixe! Essa função ainda não foi feita.")
+    return a
+    print("imagem_carrega(): Vixe! Essa função ainda não foi feita.")
 
 #--------------------------------------------------------------------------        
 def imagem_clone(imagem):
@@ -151,6 +146,7 @@ def imagem_regiao(imagem, left, top, right, bottom):
                        [1, 2, 3, 4, 5] ], 1, 2, 3, 4)
     [[9,8], [2,3]]
     '''
+
     print("imagem_regiao(): Vixe! Essa função ainda não foi feita.")
 
 #--------------------------------------------------------------------------            

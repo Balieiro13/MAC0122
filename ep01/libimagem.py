@@ -88,11 +88,13 @@ def imagem_carrega(dest, orig):
     >>> tt
     [[777, -122, 3], [1, 2, 3]]
     '''
-    a = dest
+    carreg = dest
+
     for i in range(len(orig)):
         for j in range(len(orig[0])):
             dest[i][j] = orig[i][j]
-    return a
+
+    return carreg
     print("imagem_carrega(): Vixe! Essa função ainda não foi feita.")
 
 #--------------------------------------------------------------------------        
@@ -146,7 +148,14 @@ def imagem_regiao(imagem, left, top, right, bottom):
                        [1, 2, 3, 4, 5] ], 1, 2, 3, 4)
     [[9,8], [2,3]]
     '''
-
+    recorte = imagem_nova( bottom - top, right - left, 0)
+    a = 0
+    for i in range(top, bottom):
+        recorte[a] = imagem[i][left:right]
+        a += 1
+        if a == len(recorte):
+            break
+    return recorte 
     print("imagem_regiao(): Vixe! Essa função ainda não foi feita.")
 
 #--------------------------------------------------------------------------            

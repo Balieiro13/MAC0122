@@ -44,7 +44,7 @@
 
 #-------------------------------------------------------------------------- 
 
-class Imagem:
+class Imagem():
     '''
     Implementação da classe Imagem que tem o mesmo comportamento descrito 
     no enunciado.
@@ -56,8 +56,17 @@ class Imagem:
         self.nlin = nlin
         self.ncol = ncol
         self.valor = valor
-    
+
     def imagem_nova(self):
         nova  = [[self.valor for i in range(self.ncol)] for i in range(self.nlin)]
         return nova
-   
+    
+    def size(self):
+        return (self.nlin, self.ncol)
+    
+    def get(self, lin, col):
+        return self.imagem_nova()[lin][col]
+    
+    def put(self, lin, col):
+        pass
+    

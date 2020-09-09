@@ -8,8 +8,8 @@
 
 '''
 
-    Nome:
-    NUSP:
+    Nome: André Balieiro
+    NUSP: 9365810
 
     Ao preencher esse cabeçalho com o meu nome e o meu número USP,
     declaro que todas as partes originais desse exercício programa (EP)
@@ -51,3 +51,13 @@ class Imagem:
     '''
 
     # escreva aqui os métodos da classe Imagem
+
+    def __init__(self, nlin, ncol, valor = 0):
+        self.nlin = nlin
+        self.ncol = ncol
+        self.valor = valor
+    
+    def imagem_nova(self):
+        nova  = [[self.valor for i in range(self.ncol)] for i in range(self.nlin)]
+        return nova
+   

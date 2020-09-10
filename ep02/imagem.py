@@ -56,6 +56,14 @@ class Imagem():
         self.nlin = nlin
         self.ncol = ncol
         self.valor = valor
+        
+    def __str__(self):
+        lin = self.nlin
+        col = self.ncol
+        val = self.valor
+        
+        s = f'{val}, ' * col
+        return f'{s} \n' * lin
 
     def imagem_nova(self):
         nova  = [[self.valor for i in range(self.ncol)] for i in range(self.nlin)]

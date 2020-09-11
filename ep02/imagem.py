@@ -75,6 +75,7 @@ class Imagem():
     def get(self, lin, col):
         return self.imagem_nova()[lin][col]
     
-    def put(self, lin, col):
+    def put(self, lin, col): 
+        """ Preciso definir essa função"""
         pass
     

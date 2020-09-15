@@ -65,17 +65,24 @@ class Imagem():
         s = f'{val}, ' * col
         return f'{s} \n' * lin
 
-    def imagem_nova(self):
-        nova  = [[self.valor for i in range(self.ncol)] for i in range(self.nlin)]
-        return nova
-    
+    def imagem_n(self):
+        nlin = self.nlin
+        ncol = self.ncol
+        val = self.valor
+        img = imagem_nova(nlin,ncol,val)
+        return img
+
     def size(self):
         return (self.nlin, self.ncol)
     
     def get(self, lin, col):
-        return self.imagem_nova()[lin][col]
+        return self.imagem_n()[lin][col]
     
-    def put(self, lin, col): 
-        """ Preciso definir essa função"""
+    def put(self, lin, col, val):
         pass
-    
+
+# Funcs auxiliares #
+
+def imagem_nova(nlin, ncol, valor):
+    nova = [[valor for i in range(ncol)] for i in range(nlin)]
+    return nova

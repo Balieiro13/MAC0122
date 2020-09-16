@@ -86,6 +86,4 @@ class Imagem():
         for i in range(top, bottom):
             recorte.img[a] = self.img[i][left:right]
             a += 1
-            if a == len(recorte.img):
-                break
         return recorte

@@ -75,11 +75,10 @@ class Imagem():
         return None
 
     def crop(self, left=0, top=0, right=0, bottom=0):
-        if right==0 and bottom==0:
+        if right == 0:
             right = self.ncol
+        if bottom == 0:
             bottom = self.nlin
-            recorte = Imagem(bottom-top, right-left, self.valor)
-            return recorte
 
         a = 0
         recorte = Imagem(bottom-top, right-left)
@@ -87,6 +86,4 @@ class Imagem():
         for i in range(top, bottom):
             recorte.img[a] = self.img[i][left:right]
             a += 1
-            if a == len(recorte.img):
-                break
         return recorte

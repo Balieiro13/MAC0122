@@ -73,3 +73,17 @@ class Imagem():
     def put(self, lin, col, val):
         self.img[lin][col] = val
         return None
+
+    def crop(self, left=0, top=0, right=0, bottom=0):
+        recorte = Imagem(bottom-top, right-left)
+        a = 0
+        if left == 0 and top == 0 and right == 0 and bottom == 0:
+            recorte.img = self.img
+            return recorte
+
+        for i in range(top, bottom):
+            recorte.img[a] = self.img[i][left:right]
+            a += 1
+            if a == len(recorte.img):
+                break
+        return recorte

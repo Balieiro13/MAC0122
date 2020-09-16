@@ -56,33 +56,20 @@ class Imagem():
         self.nlin = nlin
         self.ncol = ncol
         self.valor = valor
-        
-    def __str__(self):
-        lin = self.nlin
-        col = self.ncol
-        val = self.valor
-        
-        s = f'{val}, ' * col
-        return f'{s} \n' * lin
+        self.img = [[self.valor for i in range(self.ncol)] for i in range(self.nlin)]
 
-    def imagem_n(self):
-        nlin = self.nlin
-        ncol = self.ncol
-        val = self.valor
-        img = imagem_nova(nlin,ncol,val)
-        return img
+    def __str__(self):
+        s = ''
+        for i in self.img:
+            s += f'{str(i)[1:-1]} \n'
+        return s
 
     def size(self):
         return (self.nlin, self.ncol)
     
     def get(self, lin, col):
-        return self.imagem_n()[lin][col]
+        return self.img[lin][col]
     
     def put(self, lin, col, val):
-        pass
-
-# Funcs auxiliares #
-
-def imagem_nova(nlin, ncol, valor):
-    nova = [[valor for i in range(ncol)] for i in range(nlin)]
-    return nova
+        self.img[lin][col] = val
+        return None

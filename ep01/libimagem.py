@@ -163,8 +163,6 @@ def imagem_regiao(imagem, left, top, right, bottom):
     for i in range(top, bottom):
         recorte[a] = imagem[i][left:right]
         a += 1
-        if a == len(recorte):
-            break
 
     return recorte 
 ##################################### resposta ###################################

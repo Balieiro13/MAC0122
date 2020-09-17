@@ -29,8 +29,7 @@
     você tenha utilizado alguma informação, trecho de código,...
     indique esse fato abaixo para que o seu programa não seja
     considerado plágio ou irregular.
-
-    Exemplo:
+Exemplo:
 
         A monitora me explicou que eu devia utilizar a função int() quando
         fazemos leitura de números inteiros.
@@ -97,4 +96,16 @@ class Imagem:
                 imgsoma.put(i, j, self.img[i][j] + other.img[i][j])
 
         return imgsoma
-    
+
+    def __mul__(self, other):
+        other = float(other)
+        imgmult = Imagem(self.nlin, self.ncol)
+
+        for i in range(len(self.img)):
+            for j in range(len(self.img[i])):
+                imgmult.put(i,j, self.img[i][j]*other)
+
+        return imgmult
+
+    def __rmul__(self, other):
+        return self * other

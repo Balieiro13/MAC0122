@@ -109,3 +109,37 @@ class Imagem:
 
     def __rmul__(self, other):
         return self * other
+
+    def paste(self, imgn, tlin, tcol):
+        mlin = max(self.nlin, imgn.nlin)
+        mcol = max(self.ncol, imgn.ncol)
+        tlin += mlin
+        tcol+= mcol
+
+        if tlin + imgn.nlin < mlin or 2*mlin < tlin:
+            return None
+        if tcol + imgn.ncol < mcol or 2*mcol < tcol:
+            return None
+
+        inula = Imagem(3*mlin, 3*mcol)
+        a,b,c,d = 0,0,0,0
+
+        for i in range(mlin, mlin+self.nlin):
+            for j in range(mcol, mcol+self.ncol):
+                inula.put(i,j, self.img[a][b])
+                b+=1
+            b=0
+            a+=1
+
+
+        for i in range(tlin, (tlin+imgn.nlin)):
+            for j in range(tcol, (tcol+imgn.ncol)):
+                inula.put(i, j, imgn.img[c][d])
+                d+=1
+            d=0
+            c+=1
+
+        final = inula.crop(mcol, mlin, mcol + self.ncol, mlin + self.nlin)
+        self.img = final.img
+
+        return None

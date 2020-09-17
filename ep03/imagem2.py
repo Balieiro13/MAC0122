@@ -90,4 +90,5 @@ class Imagem:
     # escreva aqui os NOVOS métodos da classe Imagem que fazem parte do EP03
 
     def __add__(self, other):
+#todo implementar soma de duas imagens
         pass

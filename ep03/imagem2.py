@@ -90,5 +90,11 @@ class Imagem:
     # escreva aqui os NOVOS métodos da classe Imagem que fazem parte do EP03
 
     def __add__(self, other):
-#todo implementar soma de duas imagens
-        pass
+        imgsoma = Imagem(self.nlin, self.ncol)
+
+        for i in range(len(self.img)):
+            for j in range(len(self.img[i])):
+                imgsoma.put(i, j, self.img[i][j] + other.img[i][j])
+
+        return imgsoma
+    

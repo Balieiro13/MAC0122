@@ -8,8 +8,8 @@
 
 '''
 
-    Nome:
-    NUSP:
+    Nome: André Balieiro
+    NUSP: 9365810
 
     Ao preencher esse cabeçalho com o meu nome e o meu número USP,
     declaro que todas as partes originais desse exercício programa (EP)
@@ -88,3 +88,6 @@ class Imagem:
         return recorte
 
     # escreva aqui os NOVOS métodos da classe Imagem que fazem parte do EP03
+
+    def __add__(self, other):
+        pass

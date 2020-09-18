@@ -112,13 +112,13 @@ class Imagem:
 
     def paste(self, imgn, tlin, tcol):
 
-        if tlin < 0:
-            imgn.crop(0, -tlin, 0, 0)
-        if tcol < 0:
-            imgn.crop(-tcol,0,0,0)
-
         mlin = min(self.nlin, imgn.nlin + tlin)
         mcol = min(self.ncol, imgn.ncol + tcol)
+
+        if tlin < 0:
+            imgn = imgn.crop(0, -tlin, 0, 0)
+        if tcol < 0:
+            imgn = imgn.crop(-tcol,0,0,0)
 
         a,b = 0,0
 
@@ -132,20 +132,18 @@ class Imagem:
         return None
 
     def pinte_disco(self, val, raio, clin, ccol):
-        raio+=1
-        quad_circ = Imagem(2*raio + 1, 2*raio + 1)
+        quad_circ = Imagem(2*raio +1, 2*raio +1 )
 
         for i in range(len(quad_circ.img)):
             for j in range(len(quad_circ.img[i])):
                 if (i+1 - (raio+1))**2 + (j+1 - (raio+1))**2 < (raio)**2:
                     quad_circ.put(i,j, 1)
-        print(quad_circ)
 
-        self.paste(quad_circ, clin-raio+1, ccol-raio+1)
+        self.paste(quad_circ, clin -(raio) , ccol-(raio))
         for i in range(len(self.img)):
             for j in range(len(self.img[i])):
                 if self.img[i][j] == 0:
                     self.put(i,j, self.valor)
                 if self.img[i][j] == 1:
                     self.put(i,j, val)
-        #return None
+        return None

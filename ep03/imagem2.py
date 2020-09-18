@@ -130,3 +130,20 @@ class Imagem:
             a+=1
 
         return None
+    
+    def pinte_disco(self, val, raio, clin, ccol):
+        quad_circ = Imagem(2*raio, 2*raio)
+
+        for i in range(len(quad_circ.img)):
+            for j in range(len(quad_circ.img[i])):
+                if (i+1 - (raio+0.5))**2 + (j+1 - (raio+0.5))**2 <= (raio+0.5)**2:
+                    quad_circ.put(i,j, 1)
+
+        self.paste(quad_circ, clin-raio, ccol-raio)
+        for i in range(len(self.img)):
+            for j in range(len(self.img[i])):
+                if self.img[i][j] == 0:
+                    self.put(i,j, self.valor)
+                if self.img[i][j] == 1:
+                    self.put(i,j, val)
+        return None

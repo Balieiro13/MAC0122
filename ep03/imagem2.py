@@ -148,3 +148,10 @@ class Imagem:
                 if self.img[i][j] == 1:
                     self.put(i,j, val)
         return None
+
+    def pinte_retangulo(self, val, left, top, right, bottom):
+        retang = Imagem(bottom - top, right - left, val)
+
+        self.paste(retang, top, left)
+
+        return None

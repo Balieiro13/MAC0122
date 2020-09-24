@@ -8,8 +8,8 @@
 
 '''
 
-    Nome:
-    NUSP:
+    Nome: André Balieiro
+    NUSP: 9365810
 
     Ao preencher esse cabeçalho com o meu nome e o meu número USP,
     declaro que todas as partes originais desse exercício programa (EP)
@@ -42,3 +42,51 @@
 
 '''
 class Polinomio:
+
+    def __init__(self, coefs):
+        self.coefs = coefs
+        self.grau = len(coefs)-1
+
+    def __str__(self):
+        co = self.coefs
+        str = ''
+        sig = ['+','-' ]
+        for i in range(len(co)):
+            if co[i] >= 0:
+                s = sig[0]
+            else:
+                s = sig[1]
+            str +=  s + f' {abs(co[i])}*x^{i} '
+
+        return str
+
+    def __add__(self, other):
+        padd = Polinomio([0 for i in range(len(self.coefs))])
+        if type(other) == int or type(other) == float:
+            padd.coefs = self.coefs[:]
+            padd.coefs[0] += other
+            return padd
+
+        if len(self.coefs)<len(other.coefs):
+            return self.__radd__(other)
+
+        cother = other.coefs[:]
+
+        for i in range(len(self.coefs)):
+            cother.append(0)
+            padd.coefs[i] = self.coefs[i] + cother[i]
+        return padd
+
+    def __radd__(self, other):
+        return other + self
+
+    def __mul__(self, other):
+        pmul = Polinomio([0 for i in range(len(self.coefs))])
+        if type(other) == int or type(other) == float:
+            for i in range(len(self.coefs)):
+                pmul.coefs[i] = self.coefs[i]* other
+            return pmul
+        
+
+    def __rmul__(self, other):
+        return other*self

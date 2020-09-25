@@ -61,14 +61,14 @@ class Polinomio:
         return str
 
     def __add__(self, other):
-        padd = Polinomio([0 for i in range(len(self.coefs))])
+        padd = Polinomio([0 for i in range(self.grau +1)])
         if type(other) == int or type(other) == float:
             padd.coefs = self.coefs[:]
             padd.coefs[0] += other
             return padd
 
-        if len(self.coefs)<len(other.coefs):
-            return self.__radd__(other)
+        if self.grau < other.grau:
+            return other.__add__(self)
 
         cother = other.coefs[:]
 
@@ -77,16 +77,33 @@ class Polinomio:
             padd.coefs[i] = self.coefs[i] + cother[i]
         return padd
 
+    def __sub__(self, other):
+
+        if type(other) == int or type(other) == float:
+           return self + (other *-1)
+
+
+        cother = Polinomio(other.coefs)
+        cother *= -1
+
+        return self + cother
+
+
+    def __rsub__(self, other):
+        return (-1)*self + other
+
     def __radd__(self, other):
-        return other + self
+        return self + other
 
     def __mul__(self, other):
-        pmul = Polinomio([0 for i in range(len(self.coefs))])
+        pmul = Polinomio([0 for i in range(self.grau+1)])
         if type(other) == int or type(other) == float:
             for i in range(len(self.coefs)):
                 pmul.coefs[i] = self.coefs[i]* other
             return pmul
+
+        
         
 
     def __rmul__(self, other):
-        return other*self
+        return self * other

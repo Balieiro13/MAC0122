@@ -45,7 +45,7 @@ class Polinomio:
 
     def __init__(self, coefs):
         self.coefs = coefs
-        self.grau = len(coefs)-1
+        self.gral = len(coefs)-1
 
     def __str__(self):
         co = self.coefs
@@ -60,14 +60,22 @@ class Polinomio:
 
         return str
 
+    def __call__(self, args):
+        result = 0
+        for i in range (self.gral +1):
+            result += self.coefs[i]*(args**i)
+
+        return result
+
+
     def __add__(self, other):
-        padd = Polinomio([0 for i in range(self.grau +1)])
+        padd = Polinomio([0 for i in range(self.gral +1)])
         if type(other) == int or type(other) == float:
             padd.coefs = self.coefs[:]
             padd.coefs[0] += other
             return padd
 
-        if self.grau < other.grau:
+        if self.gral < other.gral:
             return other.__add__(self)
 
         cother = other.coefs[:]
@@ -96,14 +104,26 @@ class Polinomio:
         return self + other
 
     def __mul__(self, other):
-        pmul = Polinomio([0 for i in range(self.grau+1)])
+        pmul = Polinomio([0 for i in range(self.gral+1)])
         if type(other) == int or type(other) == float:
             for i in range(len(self.coefs)):
                 pmul.coefs[i] = self.coefs[i]* other
             return pmul
 
-        
-        
-
     def __rmul__(self, other):
         return self * other
+
+
+    def derive(self):
+        derivado = Polinomio([0 for i in range(self.gral)])
+
+        for i in range(self.gral):
+            derivado.coefs[i] = self.coefs[i+1]*(i+1)
+
+        return derivado
+
+    def grau(self):             #não entendi pra que esse método
+        return self.gral
+
+    def coeficientes(self):         #nem esse.
+        return self.coefs

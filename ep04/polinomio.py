@@ -40,11 +40,17 @@
 
     Descrição de ajuda ou indicação de fonte:
 
+        Encontrei a funcão "enumerate()" que não conhecia para fazer a multiplicaćão de
+        polinômios na página "https://stackoverflow.com/questions/5413158/multiplying-polynomials-in-python"
+
 '''
 class Polinomio:
 
     def __init__(self, coefs):
-        self.coefs = coefs
+        coefs = tiraz(coefs)
+        if coefs == None:
+            coefs = [0]
+        self.coefs = coefs[:]
         self.gral = len(coefs)-1
 
     def __str__(self):
@@ -60,6 +66,13 @@ class Polinomio:
 
         return str
 
+    def __eq__(self, other):
+        if isinstance(other, Polinomio):
+            return self.coefs == other.coefs
+        else:
+            return len(self.coefs) == 1 and self.coefs[0] == other
+
+
     def __call__(self, args):
         result = 0
         for i in range (self.gral +1):
@@ -69,32 +82,32 @@ class Polinomio:
 
 
     def __add__(self, other):
-        padd = Polinomio([0 for i in range(self.gral +1)])
+        padd = [0]*(self.gral+1)
+
         if type(other) == int or type(other) == float:
-            padd.coefs = self.coefs[:]
-            padd.coefs[0] += other
-            return padd
+            padd = self.coefs[:]
+            padd[0] += other
+            return Polinomio(padd)
 
         if self.gral < other.gral:
             return other.__add__(self)
 
         cother = other.coefs[:]
-
         for i in range(len(self.coefs)):
             cother.append(0)
-            padd.coefs[i] = self.coefs[i] + cother[i]
-        return padd
+            padd[i] = self.coefs[i] + cother[i]
+
+        return Polinomio(padd)
 
     def __sub__(self, other):
-
         if type(other) == int or type(other) == float:
            return self + (other *-1)
+        if self == other:
+            return 0
 
+        cother = [-i for i in other.coefs]
 
-        cother = Polinomio(other.coefs)
-        cother *= -1
-
-        return self + cother
+        return self + Polinomio(cother)
 
 
     def __rsub__(self, other):
@@ -104,26 +117,44 @@ class Polinomio:
         return self + other
 
     def __mul__(self, other):
-        pmul = Polinomio([0 for i in range(self.gral+1)])
+        pmul = [0]*(self.gral+1)
+
         if type(other) == int or type(other) == float:
             for i in range(len(self.coefs)):
-                pmul.coefs[i] = self.coefs[i]* other
-            return pmul
+                pmul[i] = self.coefs[i]* other
+            return Polinomio(pmul)
+
+        pxp = [0]*(self.gral + other.gral + 1)
+        for i1,i2 in enumerate(self.coefs):
+            for j1,j2 in enumerate(other.coefs):
+                pxp[i1+j1] += i2*j2
+        return Polinomio(pxp)
+
 
     def __rmul__(self, other):
         return self * other
 
 
     def derive(self):
-        derivado = Polinomio([0 for i in range(self.gral)])
-
+        derivado = [0]*(self.gral+1)
         for i in range(self.gral):
-            derivado.coefs[i] = self.coefs[i+1]*(i+1)
+            derivado[i] = self.coefs[i+1]*(i+1)
 
-        return derivado
+        return Polinomio(derivado)
 
     def grau(self):             #não entendi pra que esse método
         return self.gral
 
     def coeficientes(self):         #nem esse.
-        return self.coefs
+        coeficiente = self.coefs[:]
+        return coeficiente
+
+
+'''
+Funćões auxiliares
+'''
+
+def tiraz(lis):
+    for i in range(len(lis)-1, -1, -1):
+        if lis[i] !=0 :
+            return lis[:i+1]

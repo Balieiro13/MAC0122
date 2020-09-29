@@ -82,8 +82,6 @@ class Polinomio:
 
 
     def __add__(self, other):
-        padd = [0]*(self.gral+1)
-
         if type(other) == int or type(other) == float:
             padd = self.coefs[:]
             padd[0] += other
@@ -92,10 +90,8 @@ class Polinomio:
         if self.gral < other.gral:
             return other.__add__(self)
 
-        cother = other.coefs[:]
-        for i in range(self.gral+1):
-            cother.append(0) # para que cother e self.coefs tenham o mesmo len
-            padd[i] = self.coefs[i] + cother[i]
+        cother = other.coefs[:] + [0]*(self.gral - other.gral)
+        padd = list(map(lambda x,y : x+y, self.coefs, cother))
 
         return Polinomio(padd)
 
@@ -115,11 +111,8 @@ class Polinomio:
         return self + other
 
     def __mul__(self, other):
-        pmul = [0]*(self.gral+1)
-
         if type(other) == int or type(other) == float:
-            for i in range(len(self.coefs)):
-                pmul[i] = self.coefs[i]* other
+            pmul = list(map(lambda x: x*other, self.coefs))
             return Polinomio(pmul)
 
         pxp = [0]*(self.gral + other.gral + 1)
@@ -127,7 +120,6 @@ class Polinomio:
             for j1,j2 in enumerate(other.coefs):
                 pxp[i1+j1] += i2*j2
         return Polinomio(pxp)
-
 
     def __rmul__(self, other):
         return self * other

@@ -93,8 +93,8 @@ class Polinomio:
             return other.__add__(self)
 
         cother = other.coefs[:]
-        for i in range(len(self.coefs)):
-            cother.append(0)
+        for i in range(self.gral+1):
+            cother.append(0) # para que cother e self.coefs tenham o mesmo len
             padd[i] = self.coefs[i] + cother[i]
 
         return Polinomio(padd)
@@ -102,8 +102,6 @@ class Polinomio:
     def __sub__(self, other):
         if type(other) == int or type(other) == float:
            return self + (other *-1)
-        if self == other:
-            return 0
 
         cother = [-i for i in other.coefs]
 
@@ -156,5 +154,5 @@ Funćões auxiliares
 
 def tiraz(lis):
     for i in range(len(lis)-1, -1, -1):
-        if lis[i] !=0 :
+        if lis[i] !=0:
             return lis[:i+1]

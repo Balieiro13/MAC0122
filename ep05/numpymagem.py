@@ -53,13 +53,13 @@ class NumPymagem:
 
     # escreva aqui os métodos da classe Pymagem
 
-    def __init__(self, nlins, ncols, val):
+    def __init__(self, nlins, ncols, val=0):
         imagem = np.array([[val] * ncols] * nlins)
 
         if type(val) == int or type(val) == float:
             self.img = imagem
         else:
-            self.img = val
+            self.img = np.copy(val)
         if type(val) == type(imagem):
             self.nlins, self.ncols = self.img.shape
         else:
@@ -68,10 +68,6 @@ class NumPymagem:
 
         self.val = val
         self.shape = self.img.shape
-
-
-
-
 
     def __str__(self):
         s = ''
@@ -103,10 +99,56 @@ class NumPymagem:
         if bottom == 0:
             bottom = self.nlins
 
-        recorte = self.img[top:bottom, left:right]
+        sharingan = np.copy(self.img[top:bottom, left:right])
 
-        return NumPymagem(0,0,recorte)
+        return NumPymagem(0,0,sharingan)
 
-    #def paste(self, img, tlin, tcol):
+    def paste(self, imgn, tlin, tcol):
+        mlin = min(self.nlins, imgn.nlins + tlin)
+        mcol = min(self.ncols, imgn.ncols + tcol)
+
+        if tlin < 0:
+            imgn = imgn.crop(0,-tlin,0,0)
+        if tcol < 0:
+            imgn = imgn.crop(-tcol,0,0,0)
+
+        a,b = 0,0
+
+        for i in range(max(0,tlin), mlin):
+            for j in range(max(0,tcol), mcol):
+                self[i,j] = imgn[a,b]
+                b+=1
+            b=0
+            a+=1
+
+        return None
+
+    def pinte_disco(self, val, raio, clin, ccol):
+        quad_circ = NumPymagem(2 * raio + 1, 2 * raio + 1)
+
+        for i in range(len(quad_circ.img)):
+            for j in range(len(quad_circ.img[i])):
+                if (i + 1 - (raio + 1)) ** 2 + (j + 1 - (raio + 1)) ** 2 < (raio) ** 2:
+                    quad_circ[i, j] = 1
+
+        self.paste(quad_circ, (clin - raio), (ccol - raio))
+
+        for i in range(len(self.img)):
+            for j in range(len(self.img[i])):
+                if self[i,j] == 0:
+                    if type(self.val) == type(self.img):
+                        self[i, j] = self.val[i, j]
+                    else:
+                        self[i,j] = self.val
+                if self[i,j] == 1:
+                    self[i, j] = val
+        return None
+
+    def pinte_retangulo(self, val, left, top, right, bottom):
+        retang = NumPymagem(bottom - top, right - left, val)
+        self.paste(retang, top, left)
+
+        return None
+
 
 

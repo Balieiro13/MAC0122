@@ -54,7 +54,8 @@ class NumPymagem:
     # escreva aqui os métodos da classe Pymagem
 
     def __init__(self, nlins, ncols, val=0):
-        imagem = np.array([[val] * ncols] * nlins)
+        valores =[[val] * ncols] * nlins
+        imagem = np.array(valores)
 
         if type(val) == int or type(val) == float:
             self.img = imagem
@@ -68,11 +69,12 @@ class NumPymagem:
 
         self.val = val
         self.shape = self.img.shape
+        self.str = [list(i) for i in self.img]
 
     def __str__(self):
         s = ''
         for i in self.img:
-            s += f'{str(i)[1:-1]} \n'
+            s += f'{str((i))[1:-1]} \n'
         return s
 
     def __getitem__(self, item):

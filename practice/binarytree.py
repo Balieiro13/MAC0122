@@ -43,10 +43,6 @@ class BinaryTree(object):
 			traversal += (str(start.valor) + '-')
 		return traversal
 
-
-''' Para binary search trees vale esse método de insert e search: '''
-
-
 	def insert(self, data):
 		if self.root is None:
 			self.root = Node(data)
@@ -66,3 +62,25 @@ class BinaryTree(object):
 				self._insert(data, noodles.right)
 		else:
 			print("esse valor já existe na árvore")
+
+	def procura(self, data):
+		if self.root:
+			achou = self._procura(data, self.root)
+			if achou:
+				return True
+			return False
+		else:
+			return None
+
+	def _procura(self, data, noodles):
+		if data < noodles.valor:
+			if noodles.left is None:
+				return False
+			else:
+				return self._procura(data, noodles.left)
+		elif data > noodles.valor:
+			if noodles.right is None:
+				return False
+			else:
+				return self._procura(data, noodles.right)
+		return True

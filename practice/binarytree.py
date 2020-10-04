@@ -3,7 +3,7 @@ Algoritmo para uma binary tree usando classes: from @LucidProgramming
 '''
 
 class Node(object):
-	def __init__(self, valor):
+	def __init__(self, valor=None):
 		self.valor = valor
 		self.left = None
 		self.right = None
@@ -14,11 +14,11 @@ class BinaryTree(object):
 
 	def print_tree(self, travesal_type):
 		if travesal_type == "preorder":
-			return self.preoder_print(tree.root, "")
+			return self.preoder_print(self.root, "")
 		elif travesal_type == "inorder":
-			return self.inorder_print(tree.root, "")
+			return self.inorder_print(self.root, "")
 		elif travesal_type == "postorder":
-			return self.postorder_print(tree.root, "")
+			return self.postorder_print(self.root, "")
 		else:
 			print("N tem esse travesal ai n")
 
@@ -44,24 +44,25 @@ class BinaryTree(object):
 		return traversal
 
 
-#           1
-#       /      \
-#     2         3
-#    /  \      /  \
-#  4     5    6    7
-#                    \
-#                     8
+''' Para binary search trees vale esse método de insert e search: '''
 
 
-tree = BinaryTree(1)
-tree.root.left = Node(2)
-tree.root.right = Node(3)
-tree.root.left.left = Node(4)
-tree.root.left.right = Node(5)
-tree.root.right.left = Node(6)
-tree.root.right.right = Node(7)
-tree.root.right.right.right = Node(8)
+	def insert(self, data):
+		if self.root is None:
+			self.root = Node(data)
+		else:
+			self._insert(data, self.root)
 
-print(tree.print_tree("preorder")[:-1])
-print(tree.print_tree("inorder")[:-1])
-print(tree.print_tree("postorder")[:-1])
+	def _insert (self, data, noodles):
+		if data < noodles.valor:
+			if noodles.left is None:
+				noodles.left = Node(data)
+			else:
+				self._insert(data, noodles.left)
+		elif data > noodles.valor:
+			if noodles.right is None:
+				noodles.right = Node(data)
+			else:
+				self._insert(data, noodles.right)
+		else:
+			print("esse valor já existe na árvore")

@@ -126,24 +126,10 @@ class NumPymagem:
         return None
 
     def pinte_disco(self, val, raio, clin, ccol):
-        quad_circ = NumPymagem(2 * raio + 1, 2 * raio + 1)
-
-        for i in range(len(quad_circ.img)):
-            for j in range(len(quad_circ.img[i])):
-                if (i + 1 - (raio + 1)) ** 2 + (j + 1 - (raio + 1)) ** 2 < (raio) ** 2:
-                    quad_circ[i, j] = 1
-
-        self.paste(quad_circ, (clin - raio), (ccol - raio))
-
-        for i in range(len(self.img)):
-            for j in range(len(self.img[i])):
-                if self[i,j] == 0:
-                    if type(self.val) == type(self.img):
-                        self[i, j] = self.val[i, j]
-                    else:
-                        self[i,j] = self.val
-                if self[i,j] == 1:
-                    self[i, j] = val
+        for i in range(self.nlins):
+            for j in range(self.ncols):
+                if (i-clin)**2 + (j-ccol)**2 - raio**2 < 0:
+                    self[i,j] = val
         return None
 
     def pinte_retangulo(self, val, left, top, right, bottom):

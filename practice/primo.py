@@ -1,6 +1,6 @@
 import sys
 
-pri = 100#int(sys.argv[-1])
+pri = int(sys.argv[-1])
 
 def primo(max):
 	eras={}
@@ -15,4 +15,4 @@ def primo(max):
 			del eras[p]
 		p += 1
 
-print(list(primo(pri)))
+print(primo(pri))

@@ -108,20 +108,26 @@ class NumPymagem:
     def paste(self, imgn, tlin, tcol):
         mlin = min(self.nlins, imgn.nlins + tlin)
         mcol = min(self.ncols, imgn.ncols + tcol)
-
+        slin = max(0,tlin)
+        scol = max(0,tcol)
+        array = np.copy(imgn.img)
         if tlin < 0:
-            imgn = imgn.crop(0,-tlin,0,0)
-        if tcol < 0:
-            imgn = imgn.crop(-tcol,0,0,0)
+            if imgn.nlins + tlin <=0:
+                return None
+            array = np.delete(array, np.s_[:-tlin],0)
+            array = np.delete(array, np.s_[self.nlins:], 0)
+        if tcol <0:
+            if imgn.ncols +tcol <=0:
+                return None
+            array = np.delete(array, np.s_[:-tcol],1)
+            array = np.delete(array, np.s_[self.ncols:],1)
 
-        a,b = 0,0
+        if tlin > self.nlins or tcol > self.ncols:
+            return None
+        
+        
 
-        for i in range(max(0,tlin), mlin):
-            for j in range(max(0,tcol), mcol):
-                self[i,j] = imgn[a,b]
-                b+=1
-            b=0
-            a+=1
+        self[slin:mlin, scol:mcol] = array[:self.nlins - tlin, :self.ncols - tcol]
 
         return None
 
@@ -137,6 +143,3 @@ class NumPymagem:
         self.paste(retang, top, left)
 
         return None
-
-
-

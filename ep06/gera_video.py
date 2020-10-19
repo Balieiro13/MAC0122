@@ -7,8 +7,8 @@
 
 '''
 
-    Nome:
-    NUSP:
+    Nome: André Balieiro Pereira da Silva
+    NUSP: 9365810
 
     Ao preencher esse cabeçalho com o meu nome e o meu número USP,
     declaro que todas as partes originais desse exercício programa (EP)
@@ -47,8 +47,8 @@ from numpymutil import mostre_video
 from numpymutil import salve_video
 
 # Escreva aqui outras constantes que desejar
-ALTURA  = 120
-LARGURA = 160
+ALTURA  = 240  
+LARGURA = 300
 BLACK = 0
 WHITE = 250
 
@@ -82,51 +82,82 @@ def main():
     D1 = randisco(ALTURA, LARGURA)
     D2 = randisco(ALTURA, LARGURA)
 
-    video.append(preto)
+    
+    for i in range(120):
+        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D1['col'], LARGURA, ALTURA, D1['vetor'])
+        D2['vetor'] = change_vetor(D2['raio'], D2['lin'], D2['col'], LARGURA, ALTURA, D2['vetor'])
+        preto = NumPymagem(ALTURA, LARGURA, BLACK)
+
+        D1['lin'], D1['col'] = soma_vetor(D1['lin'], D1['col'], D1['vetor'])
+        D2['lin'], D2['col'] = soma_vetor(D2['lin'], D2['col'], D2['vetor'])
+
+        preto.pinte_disco(WHITE, D1['raio'], D1['lin'], D1['col'])
+        preto.pinte_disco(WHITE, D2['raio'], D2['lin'], D2['col'])
+        video.append(preto)
+
     while cor < WHITE:  
-        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D2['col'], LARGURA, ALTURA, D1['vetor'])
+        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D1['col'], LARGURA, ALTURA, D1['vetor'])
+        D2['vetor'] = change_vetor(D2['raio'], D2['lin'], D2['col'], LARGURA, ALTURA, D2['vetor'])
 
         cor +=1
         dcor = (dcor-1)%WHITE
         cinza = NumPymagem(ALTURA, LARGURA, cor)
 
-        D1['lin'] += D1['vetor'][0]
-        D1['col'] += D1['vetor'][1]
+        D1['lin'], D1['col'] = soma_vetor(D1['lin'], D1['col'], D1['vetor'])
+        D2['lin'], D2['col'] = soma_vetor(D2['lin'], D2['col'], D2['vetor'])
 
         cinza.pinte_disco(dcor, D1['raio'], D1['lin'], D1['col']) 
+        cinza.pinte_disco(dcor, D2['raio'], D2['lin'], D2['col']) 
 
         video.append(cinza)
 
-    for i in range(60): # mostra 2s de fundo branco
-        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D2['col'], LARGURA, ALTURA, D1['vetor'])
+    for i in range(120): 
+        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D1['col'], LARGURA, ALTURA, D1['vetor'])
+        D2['vetor'] = change_vetor(D2['raio'], D2['lin'], D2['col'], LARGURA, ALTURA, D2['vetor'])
         branco = NumPymagem(ALTURA, LARGURA, WHITE)
-        D1['lin'] += D1['vetor'][0]
-        D1['col'] += D1['vetor'][1]
+
+        D1['lin'], D1['col'] = soma_vetor(D1['lin'], D1['col'], D1['vetor'])
+        D2['lin'], D2['col'] = soma_vetor(D2['lin'], D2['col'], D2['vetor'])
 
         branco.pinte_disco(BLACK, D1['raio'], D1['lin'], D1['col'])
+        branco.pinte_disco(BLACK, D2['raio'], D2['lin'], D2['col'])
         video.append(branco)
 
     while cor > BLACK:
-        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D2['col'], LARGURA, ALTURA, D1['vetor'])
+        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D1['col'], LARGURA, ALTURA, D1['vetor'])
+        D2['vetor'] = change_vetor(D2['raio'], D2['lin'], D2['col'], LARGURA, ALTURA, D2['vetor'])
         cor -= 1
         dcor = (dcor+1)%WHITE
         cinza = NumPymagem(ALTURA, LARGURA, cor)
         
-        D1['lin'] += D1['vetor']
-        D1['col'] += D1['vetor']
+        D1['lin'], D1['col'] = soma_vetor(D1['lin'], D1['col'], D1['vetor'])
+        D2['lin'], D2['col'] = soma_vetor(D2['lin'], D2['col'], D2['vetor'])
 
         cinza.pinte_disco(dcor, D1['raio'], D1['lin'], D1['col'])
+        cinza.pinte_disco(dcor, D2['raio'], D2['lin'], D2['col'])
         video.append(cinza)
 
-    mostre = True
+    for i in range (160):
+        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D1['col'], LARGURA, ALTURA, D1['vetor'])
+        D2['vetor'] = change_vetor(D2['raio'], D2['lin'], D2['col'], LARGURA, ALTURA, D2['vetor'])
+        preto = NumPymagem(ALTURA, LARGURA, BLACK)
+
+        D1['lin'], D1['col'] = soma_vetor(D1['lin'], D1['col'], D1['vetor'])
+        D2['lin'], D2['col'] = soma_vetor(D2['lin'], D2['col'], D2['vetor'])
+
+        preto.pinte_disco(WHITE, D1['raio'], D1['lin'], D1['col'])
+        preto.pinte_disco(WHITE, D2['raio'], D2['lin'], D2['col'])
+        video.append(preto)
+
+
+    mostre = False
     if mostre:
         mostre_video(video)
 
-    salve = False
+    salve = True
     if salve:
         print("Salvando vídeo")
         salve_video(video)
-
 #-------------------------------------------------------------------------- 
 #
 # ESCREVA OUTRAS FUNÇÕES E CLASSES QUE DESEJAR
@@ -135,11 +166,11 @@ def main():
 def change_vetor(raio, lin, col, larg, alt, vetor):
     if col + raio >= larg:
         vetor[1] *= -1
-    if col <= 0:
+    if col - raio <= 0:
         vetor[1] *= -1
     if lin + raio >= alt:
         vetor[0] *= -1
-    if lin <= 0:
+    if lin - raio <= 0:
         vetor[0] *= -1
     return vetor
 
@@ -150,6 +181,9 @@ def randisco(ALT,LARG):
     vetor = [1 + random.random(), 1+ random.random()]
     valores = {'raio':raio, 'lin':lin, 'col':col, 'vetor':vetor}
     return valores
+
+def soma_vetor(lin, col, vetor):
+    return [lin+vetor[0], col+vetor[1]]
 
 
 #-------------------------------------------------------------------------- 

@@ -41,6 +41,7 @@
 
 '''
 import numpy as np
+import random
 from numpymagem import NumPymagem
 from numpymutil import mostre_video
 from numpymutil import salve_video
@@ -76,18 +77,45 @@ def main():
     branco = NumPymagem(ALTURA, LARGURA, WHITE)
     print(f"Está compatível com numpymutil: {type(preto.data) is np.ndarray}")
     cor = BLACK
+    dcor = WHITE
+    
+    D1 = randisco(ALTURA, LARGURA)
+    D2 = randisco(ALTURA, LARGURA)
 
-    for i in range(60): # gera 2s de fundo preto
-        video.append(preto)
-    for i in range(60): # muda fundo para branco, gradualmente
-        cor = (cor+3)%WHITE
+    video.append(preto)
+    while cor < WHITE:  
+        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D2['col'], LARGURA, ALTURA, D1['vetor'])
+
+        cor +=1
+        dcor = (dcor-1)%WHITE
         cinza = NumPymagem(ALTURA, LARGURA, cor)
+
+        D1['lin'] += D1['vetor'][0]
+        D1['col'] += D1['vetor'][1]
+
+        cinza.pinte_disco(dcor, D1['raio'], D1['lin'], D1['col']) 
+
         video.append(cinza)
+
     for i in range(60): # mostra 2s de fundo branco
+        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D2['col'], LARGURA, ALTURA, D1['vetor'])
+        branco = NumPymagem(ALTURA, LARGURA, WHITE)
+        D1['lin'] += D1['vetor'][0]
+        D1['col'] += D1['vetor'][1]
+
+        branco.pinte_disco(BLACK, D1['raio'], D1['lin'], D1['col'])
         video.append(branco)
-    for i in range(60): # volta para preto
-        cor = (cor-3)%WHITE
+
+    while cor > BLACK:
+        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D2['col'], LARGURA, ALTURA, D1['vetor'])
+        cor -= 1
+        dcor = (dcor+1)%WHITE
         cinza = NumPymagem(ALTURA, LARGURA, cor)
+        
+        D1['lin'] += D1['vetor']
+        D1['col'] += D1['vetor']
+
+        cinza.pinte_disco(dcor, D1['raio'], D1['lin'], D1['col'])
         video.append(cinza)
 
     mostre = True
@@ -104,6 +132,24 @@ def main():
 # ESCREVA OUTRAS FUNÇÕES E CLASSES QUE DESEJAR
 #
 #-------------------------------------------------------------------------- 
+def change_vetor(raio, lin, col, larg, alt, vetor):
+    if col + raio >= larg:
+        vetor[1] *= -1
+    if col <= 0:
+        vetor[1] *= -1
+    if lin + raio >= alt:
+        vetor[0] *= -1
+    if lin <= 0:
+        vetor[0] *= -1
+    return vetor
+
+def randisco(ALT,LARG):
+    raio = random.randint(5,10)
+    lin = random.randint(raio, ALT - raio)
+    col = random.randint(raio, LARG - raio)
+    vetor = [1 + random.random(), 1+ random.random()]
+    valores = {'raio':raio, 'lin':lin, 'col':col, 'vetor':vetor}
+    return valores
 
 
 #-------------------------------------------------------------------------- 

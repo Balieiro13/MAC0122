@@ -41,14 +41,13 @@
 
 '''
 import numpy as np
-import random
 from numpymagem import NumPymagem
 from numpymutil import mostre_video
 from numpymutil import salve_video
 
 # Escreva aqui outras constantes que desejar
-ALTURA  = 240  
-LARGURA = 300
+ALTURA  = 120  
+LARGURA = 160
 BLACK = 0
 WHITE = 250
 
@@ -74,116 +73,77 @@ def main():
     
     video = []
     preto = NumPymagem(ALTURA, LARGURA, BLACK)    
-    branco = NumPymagem(ALTURA, LARGURA, WHITE)
     print(f"Está compatível com numpymutil: {type(preto.data) is np.ndarray}")
     cor = BLACK
-    dcor = WHITE
     
-    D1 = randisco(ALTURA, LARGURA)
-    D2 = randisco(ALTURA, LARGURA)
-
-    
-    for i in range(120):
-        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D1['col'], LARGURA, ALTURA, D1['vetor'])
-        D2['vetor'] = change_vetor(D2['raio'], D2['lin'], D2['col'], LARGURA, ALTURA, D2['vetor'])
-        preto = NumPymagem(ALTURA, LARGURA, BLACK)
-
-        D1['lin'], D1['col'] = soma_vetor(D1['lin'], D1['col'], D1['vetor'])
-        D2['lin'], D2['col'] = soma_vetor(D2['lin'], D2['col'], D2['vetor'])
-
-        preto.pinte_disco(WHITE, D1['raio'], D1['lin'], D1['col'])
-        preto.pinte_disco(WHITE, D2['raio'], D2['lin'], D2['col'])
+    for i in range(90):
+        preto = NumPymagem(ALTURA, LARGURA, BLACK)    
+        cor = (cor+2)%WHITE
+        preto.pinte_disco(cor, 5, ALTURA/2, LARGURA/2)
         video.append(preto)
 
-    while cor < WHITE:  
-        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D1['col'], LARGURA, ALTURA, D1['vetor'])
-        D2['vetor'] = change_vetor(D2['raio'], D2['lin'], D2['col'], LARGURA, ALTURA, D2['vetor'])
 
-        cor +=1
-        dcor = (dcor-1)%WHITE
-        cinza = NumPymagem(ALTURA, LARGURA, cor)
+    elip = preto.crop()
+    for lin in range(ALTURA):
+        elip=elip.crop()
+        for col in range(LARGURA):
+            if 28 <= ((lin - ALTURA/2)/2.5)**2 + ((col - LARGURA/2)/10)**2  <= 30:
+                elip[lin, col] = 250
+                video.append(elip)
 
-        D1['lin'], D1['col'] = soma_vetor(D1['lin'], D1['col'], D1['vetor'])
-        D2['lin'], D2['col'] = soma_vetor(D2['lin'], D2['col'], D2['vetor'])
+    elip2 = elip.crop()
+    for lin in range(ALTURA):
+        elip2=elip2.crop()
+        for col in range(LARGURA):
+            if 28 <= ((lin - ALTURA/2)/10)**2 + ((col - LARGURA/2)/2.5)**2 <=30:
+                elip2[lin, col] = 250
+                video.append(elip2)
 
-        cinza.pinte_disco(dcor, D1['raio'], D1['lin'], D1['col']) 
-        cinza.pinte_disco(dcor, D2['raio'], D2['lin'], D2['col']) 
+    elip3 = elip2.crop()
+    theta = np.radians(45)
+    for i in range(ALTURA):
+        elip3=elip3.crop()
+        for j in range(LARGURA):
+            if 28 <= (((j-LARGURA/2)*np.cos(theta) - (i-ALTURA/2)*np.sin(theta))/10)**2 + (((j-LARGURA/2)*np.sin(theta) + (i-ALTURA/2)*np.cos(theta))/2.5)**2 <= 30:
+                elip3[i,j] = 250
+                video.append(elip3)
 
-        video.append(cinza)
+    elip4 = elip3.crop()
+    theta = np.radians(135)
+    for i in range(ALTURA):
+        elip4=elip4.crop()
+        for j in range(LARGURA):
+            if 28 <= (((j-LARGURA/2)*np.cos(theta) - (i-ALTURA/2)*np.sin(theta))/10)**2 + (((j-LARGURA/2)*np.sin(theta) + (i-ALTURA/2)*np.cos(theta))/2.5)**2 <= 30:
+                elip4[i,j] = 250
+                video.append(elip4)
+    
+    elip_preto = elip4.crop()*(-1/250)
+    fundo_branco = elip_preto.crop()
+    for i in range(ALTURA):
+        for j in range(LARGURA):
+            if fundo_branco[i,j] == 0:
+                fundo_branco[i,j] = 1
+            if fundo_branco[i,j] == -1:
+                fundo_branco[i,j] = 0
+    
 
-    for i in range(120): 
-        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D1['col'], LARGURA, ALTURA, D1['vetor'])
-        D2['vetor'] = change_vetor(D2['raio'], D2['lin'], D2['col'], LARGURA, ALTURA, D2['vetor'])
-        branco = NumPymagem(ALTURA, LARGURA, WHITE)
-
-        D1['lin'], D1['col'] = soma_vetor(D1['lin'], D1['col'], D1['vetor'])
-        D2['lin'], D2['col'] = soma_vetor(D2['lin'], D2['col'], D2['vetor'])
-
-        branco.pinte_disco(BLACK, D1['raio'], D1['lin'], D1['col'])
-        branco.pinte_disco(BLACK, D2['raio'], D2['lin'], D2['col'])
-        video.append(branco)
-
-    while cor > BLACK:
-        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D1['col'], LARGURA, ALTURA, D1['vetor'])
-        D2['vetor'] = change_vetor(D2['raio'], D2['lin'], D2['col'], LARGURA, ALTURA, D2['vetor'])
-        cor -= 1
-        dcor = (dcor+1)%WHITE
-        cinza = NumPymagem(ALTURA, LARGURA, cor)
+    for i in range(250):
+        elip4 += elip_preto + fundo_branco
+        video.append(elip4)
         
-        D1['lin'], D1['col'] = soma_vetor(D1['lin'], D1['col'], D1['vetor'])
-        D2['lin'], D2['col'] = soma_vetor(D2['lin'], D2['col'], D2['vetor'])
-
-        cinza.pinte_disco(dcor, D1['raio'], D1['lin'], D1['col'])
-        cinza.pinte_disco(dcor, D2['raio'], D2['lin'], D2['col'])
-        video.append(cinza)
-
-    for i in range (160):
-        D1['vetor'] = change_vetor(D1['raio'], D1['lin'], D1['col'], LARGURA, ALTURA, D1['vetor'])
-        D2['vetor'] = change_vetor(D2['raio'], D2['lin'], D2['col'], LARGURA, ALTURA, D2['vetor'])
-        preto = NumPymagem(ALTURA, LARGURA, BLACK)
-
-        D1['lin'], D1['col'] = soma_vetor(D1['lin'], D1['col'], D1['vetor'])
-        D2['lin'], D2['col'] = soma_vetor(D2['lin'], D2['col'], D2['vetor'])
-
-        preto.pinte_disco(WHITE, D1['raio'], D1['lin'], D1['col'])
-        preto.pinte_disco(WHITE, D2['raio'], D2['lin'], D2['col'])
-        video.append(preto)
-
-
     mostre = False
     if mostre:
         mostre_video(video)
-
     salve = True
     if salve:
         print("Salvando vídeo")
         salve_video(video)
+
 #-------------------------------------------------------------------------- 
 #
 # ESCREVA OUTRAS FUNÇÕES E CLASSES QUE DESEJAR
 #
 #-------------------------------------------------------------------------- 
-def change_vetor(raio, lin, col, larg, alt, vetor):
-    if col + raio >= larg:
-        vetor[1] *= -1
-    if col - raio <= 0:
-        vetor[1] *= -1
-    if lin + raio >= alt:
-        vetor[0] *= -1
-    if lin - raio <= 0:
-        vetor[0] *= -1
-    return vetor
-
-def randisco(ALT,LARG):
-    raio = random.randint(5,10)
-    lin = random.randint(raio, ALT - raio)
-    col = random.randint(raio, LARG - raio)
-    vetor = [1 + random.random(), 1+ random.random()]
-    valores = {'raio':raio, 'lin':lin, 'col':col, 'vetor':vetor}
-    return valores
-
-def soma_vetor(lin, col, vetor):
-    return [lin+vetor[0], col+vetor[1]]
 
 
 #-------------------------------------------------------------------------- 

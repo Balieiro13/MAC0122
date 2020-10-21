@@ -89,7 +89,7 @@ def salve_video( numpymagens, interval=50, blit=True, repeat_delay=1000 ):
     ani = animation.ArtistAnimation(fig, npimgs, interval, blit, repeat_delay)
     
     Writer = animation.writers['ffmpeg']
-    writer = Writer(fps = 120, metadata=dict(artist='ep'), bitrate=1800)
+    writer = Writer(fps = 90, metadata=dict(artist='ep'), bitrate=1800)
     ani.save('video_do_meu_ep.mp4', writer=writer)
 
 # ========================================================================

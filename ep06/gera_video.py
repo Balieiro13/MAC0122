@@ -46,8 +46,8 @@ from numpymutil import mostre_video
 from numpymutil import salve_video
 
 # Escreva aqui outras constantes que desejar
-ALTURA  = 120  
-LARGURA = 160
+ALTURA  = 240
+LARGURA = 360
 BLACK = 0
 WHITE = 250
 
@@ -117,6 +117,9 @@ def main():
                 elip4[i,j] = 250
                 video.append(elip4)
     
+    circ = elip4.crop()
+
+
     elip_preto = elip4.crop()*(-1/250)
     fundo_branco = elip_preto.crop()
     for i in range(ALTURA):
@@ -125,16 +128,16 @@ def main():
                 fundo_branco[i,j] = 1
             if fundo_branco[i,j] == -1:
                 fundo_branco[i,j] = 0
-    
+   
 
     for i in range(250):
         elip4 += elip_preto + fundo_branco
         video.append(elip4)
         
-    mostre = False
+    mostre = True
     if mostre:
         mostre_video(video)
-    salve = True
+    salve = False
     if salve:
         print("Salvando vídeo")
         salve_video(video)

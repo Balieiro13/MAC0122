@@ -69,7 +69,7 @@ class Percolation:
         return self.data[lin, col] == OPEN
     
     def is_full(self, lin, col):
-        return self.date[lin, col] == FULL
+        return self.data[lin, col] == FULL
     
     def percolates(self):
         for i in self.data[-1]:
@@ -104,7 +104,7 @@ def distancia(c, rede):
     d = [n] * n
     d[c] = 0
   
-    while not q.vazio():
+    while not q.empty():
         i = q.get()
         for j in range(n):
             if rede[i][j] == 1 and d[j] > d[i]+1:

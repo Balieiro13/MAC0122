@@ -9,7 +9,7 @@ def dist(c, rede):
 
     # inicia dist
     d = [n] * n
-    d[c] = 0
+    d[c] = 0 
 
     while not q.vazio():
         i = q.dd()
@@ -30,10 +30,11 @@ def main():
             [0,1,0,0,0,0]
             ]
 
-    origem = 0 
+    origem = 3 
 
     d = dist(origem,mat)
     for i in range(min(len(d),20)):
         print(" ",i, ":",d[i])
-
+    
+    print(d)
 main()        

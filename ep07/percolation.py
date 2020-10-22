@@ -95,9 +95,8 @@ class Percolation:
             while len(lixo) != 0:
                 prox = lixo.pop(0)
                 for i in neigh(self.data, prox):
-                    if self.is_open(i[0],i[1]):
-                        self.data[i] = FULL
-                        lixo.append(i)
+                    self.data[i] = FULL
+                    lixo.append(i)
         return None
     
     def get_grid(self):

@@ -42,7 +42,6 @@
 
 '''
 import numpy as np
-from queue import Queue
 
 #-------------------------------------------------------------------------- 
 # constantes
@@ -85,8 +84,6 @@ class Percolation:
         return sum
 
     def open(self, lin, col):
-        l, c = self.shape
-
         if self.data[lin, col] == BLOCKED:
             self.data[lin, col] = OPEN
             if lin == 0:

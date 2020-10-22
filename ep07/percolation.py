@@ -57,11 +57,11 @@ class Percolation:
     def __init__(self, shape):
         if type(shape) == int:
             self.shape = (shape,shape)
-            self.data = np.array([[0]*shape]*shape)
+            self.data = np.zeros(self.shape, int)
         if type(shape) == tuple:
             self.shape=shape
-            self.data = np.array([[0]*shape[1]]*shape[0])
-        self.rede = [[0 for i in range(self.data.size)] for i in range(self.data.size)]
+            self.data = np.zeros(shape,int)
+        self.rede = []
     
     def __str__(self):
         return str(self.data)
@@ -85,31 +85,22 @@ class Percolation:
         return sum
 
     def open(self, lin, col):
+        l, c = self.shape
+
         if self.data[lin, col] == BLOCKED:
+            self.data[lin, col] = OPEN
             if lin == 0:
                 self.data[lin, col] = FULL
-                return None
-            self.data[lin, col] = OPEN
-        
-        for i in range(self.shape[0]):
-            for j in range(self.shape[1]-1):
-                if self.is_open(i,j) and self.is_open(i,j+1):
-                    self.rede[i*self.shape[1] + j][i*self.shape[1] + j+1] = 1
-                    self.rede[i*self.shape[1] + j+1][i*self.shape[1] + j] = 1
-
-        for i in range(self.shape[0]-1):
-            for j in range(self.shape[1]):
-                if self.is_open(i,j) and self.is_open(i+1,j):
-                    self.rede[i*self.shape[1] + j][(i+1)*self.shape[1] + j] = 1
-                    self.rede[(i+1)*self.shape[1] + j][i*self.shape[1] + j] = 1
-         
-        d = distancia(lin*self.shape[1] + col, self.rede)
-        for i in range(self.shape[1]):
-            if d[i] != self.data.size and d[i] != 0:
-                for i in range(self.data.size):
-                    if d[i] != self.data.size:
-                        self.data[i//self.shape[1], i%self.shape[1]] = FULL
-                        
+       
+        if self.data[lin,col] == FULL or neightwo(self.data, (lin,col)):
+            lixo = []
+            lixo.append((lin,col))
+            while len(lixo) != 0:
+                prox = lixo.pop(0)
+                for i in neigh(self.data, prox):
+                    if self.is_open(i[0],i[1]):
+                        self.data[i] = FULL
+                        lixo.append(i)
         return None
     
     def get_grid(self):
@@ -118,17 +109,43 @@ class Percolation:
 #-------------------------------------------------------------------------- 
 # funções auxiliares
 
+def neigh(data, tup):
+    lixo = []
+    l, c = data.shape
+    lin, col = tup
+    rl = [-1,0,1,0]
+    rc = [0,-1,0,1]
+
+    for i in range(4):
+        if lin + rl[i] in range(l) and col + rc[i] in range(c):
+            if data[lin + rl[i], col + rc[i]] == 1:
+                lixo.append((lin + rl[i], col + rc[i]))
+    return lixo
+
+
+def neightwo(data, tup):
+    l, c = data.shape
+    lin, col = tup
+    rl = [-1,0,1,0]
+    rc = [0,-1,0,1]
+
+    for i in range(4):
+        if lin + rl[i] in range(l) and col + rc[i] in range(c):
+            if data[lin + rl[i], col + rc[i]] == 2:
+                data[tup] = 2
+                return True
+    return False
+
+
+
+
+
+
 def distancia(c, rede):
-    n = len(rede)
-  
     # inicia queue
     q = Queue()
     q.put(c)
  
-    # inicia dist
-    d = [n] * n
-    d[c] = 0
-  
     while not q.empty():
         i = q.get()
         for j in range(n):

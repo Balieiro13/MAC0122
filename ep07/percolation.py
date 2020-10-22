@@ -135,21 +135,3 @@ def neightwo(data, tup):
                 data[tup] = 2
                 return True
     return False
-
-
-
-
-
-
-def distancia(c, rede):
-    # inicia queue
-    q = Queue()
-    q.put(c)
- 
-    while not q.empty():
-        i = q.get()
-        for j in range(n):
-            if rede[i][j] == 1 and d[j] > d[i]+1:
-                d[j] = d[i]+1
-                q.put(j)
-    return d

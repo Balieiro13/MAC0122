@@ -61,34 +61,59 @@ class Percolation:
         if type(shape) == tuple:
             self.shape=shape
             self.data = np.array([[0]*shape[1]]*shape[0])
+        self.rede = [[0 for i in range(self.data.size)] for i in range(self.data.size)]
     
     def __str__(self):
         return str(self.data)
     
     def is_open(self, lin, col):
-        return self.data[lin, col] == OPEN
+        return self.data[lin, col] == OPEN or self.data[lin, col] == FULL
     
     def is_full(self, lin, col):
         return self.data[lin, col] == FULL
     
     def percolates(self):
-        for i in self.data[-1]:
-            if i == FULL: return True
+        if FULL in self.data[-1]:
+            return True
+        return False
     
     def no_open(self):
         sum = 0
         for i in np.reshape(self.data, self.data.size):
-            if i == OPEN:
+            if i == OPEN or i == FULL:
                 sum += 1
         return sum
 
     def open(self, lin, col):
         if self.data[lin, col] == BLOCKED:
-            self.data[lin, col] = 1
+            if lin == 0:
+                self.data[lin, col] = FULL
+                return None
+            self.data[lin, col] = OPEN
+        
+        for i in range(self.shape[0]):
+            for j in range(self.shape[1]-1):
+                if self.is_open(i,j) and self.is_open(i,j+1):
+                    self.rede[i*self.shape[1] + j][i*self.shape[1] + j+1] = 1
+                    self.rede[i*self.shape[1] + j+1][i*self.shape[1] + j] = 1
+
+        for i in range(self.shape[0]-1):
+            for j in range(self.shape[1]):
+                if self.is_open(i,j) and self.is_open(i+1,j):
+                    self.rede[i*self.shape[1] + j][(i+1)*self.shape[1] + j] = 1
+                    self.rede[(i+1)*self.shape[1] + j][i*self.shape[1] + j] = 1
+         
+        d = distancia(lin*self.shape[1] + col, self.rede)
+        for i in range(self.shape[1]):
+            if d[i] != self.data.size and d[i] != 0:
+                for i in range(self.data.size):
+                    if d[i] != self.data.size:
+                        self.data[i//self.shape[1], i%self.shape[1]] = FULL
+                        
         return None
     
     def get_grid(self):
-        return self.data
+        return self.data.copy()
 
 #-------------------------------------------------------------------------- 
 # funções auxiliares

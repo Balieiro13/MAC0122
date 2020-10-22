@@ -1,9 +1,21 @@
 from quickfind import QuickFind
+import numpy as np
 
-obj=QuickFind(5) #Total number of nodes in graph
-obj.union(0,1) #Create connection between 0 and 1
-obj.union(2,3) #Create connection between 2 and 3
-obj.union(3,4) #Create connection between 3 and 4
-print(obj.isjoin(0,1)) #Check connection between 0 and 1
-print(obj.isjoin(1,2)) #Check Connection between 1 and 2
-print(obj.isjoin(2,4))
+c=QuickFind(12)
+
+c.union(1,0)
+c.union(5,1)
+c.union(6,5)
+c.union(10,6)
+
+b = np.array([[2, 2, 0, 0],
+ [0, 1, 1, 0],
+ [0, 0, 1, 0]])
+
+
+for i in range(b.shape[1]):
+    if b[0][i] == 2:
+        for j in range(b.size):
+            if c.isjoin(i,j):
+                b[j//4, j%4] = 2
+print(b)

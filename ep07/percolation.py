@@ -43,6 +43,7 @@
 '''
 import numpy as np
 from queue import Queue
+from quickfind import QuickFind
 
 #-------------------------------------------------------------------------- 
 # constantes
@@ -61,7 +62,8 @@ class Percolation:
         if type(shape) == tuple:
             self.shape=shape
             self.data = np.array([[0]*shape[1]]*shape[0])
-        self.rede = [[0 for i in range(self.data.size)] for i in range(self.data.size)]
+
+        self.graph = QuickFind(self.data.size)
     
     def __str__(self):
         return str(self.data)
@@ -91,24 +93,21 @@ class Percolation:
                 return None
             self.data[lin, col] = OPEN
         
-        for i in range(self.shape[0]):
-            for j in range(self.shape[1]-1):
-                if self.is_open(i,j) and self.is_open(i,j+1):
-                    self.rede[i*self.shape[1] + j][i*self.shape[1] + j+1] = 1
-                    self.rede[i*self.shape[1] + j+1][i*self.shape[1] + j] = 1
+        if lin < self.shape[0]-1 and self.is_open(lin+1, col):
+            self.graph.union(lin*self.shape[1] + col, (lin+1)*self.shape[1] + col)
+        if col < self.shape[1]-1 and self.is_open(lin, col+1):
+            self.graph.union(lin*self.shape[1] + col, lin*self.shape[1] + (col+1))
 
-        for i in range(self.shape[0]-1):
-            for j in range(self.shape[1]):
-                if self.is_open(i,j) and self.is_open(i+1,j):
-                    self.rede[i*self.shape[1] + j][(i+1)*self.shape[1] + j] = 1
-                    self.rede[(i+1)*self.shape[1] + j][i*self.shape[1] + j] = 1
-         
-        d = distancia(lin*self.shape[1] + col, self.rede)
+        if self.is_open(lin-1, col):
+            self.graph.union(lin*self.shape[1] + col, (lin-1)*self.shape[1] + col)
+        if self.is_open(lin, col-1):
+            self.graph.union(lin*self.shape[1] + col, lin*self.shape[1] + (col-1))
+        
         for i in range(self.shape[1]):
-            if d[i] != self.data.size and d[i] != 0:
-                for i in range(self.data.size):
-                    if d[i] != self.data.size:
-                        self.data[i//self.shape[1], i%self.shape[1]] = FULL
+            if self.data[0,i] == FULL:
+                for j in range(self.data.size):
+                    if self.graph.isjoin(i,j):
+                        self.data[j//self.shape[1], j%self.shape[1]] = FULL
                         
         return None
     

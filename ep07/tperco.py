@@ -1,20 +1,16 @@
 from percolation import Percolation
+import random
+from itertools import product
 
-teste = Percolation((4,5))
-teste.open(1,1)
-print(teste.get_grid())
-teste.open(3,0)
-print(teste.get_grid())
-teste.open(0,2)
-print(teste.get_grid())
-teste.open(0,1)
-print(teste.get_grid())
-teste.open(2,1)
-print(teste.get_grid())
-teste.open(3,1)
-print(teste.get_grid())
-teste.open(2,3)
-print(teste.get_grid())
-teste.open(2,2)
-print(teste.get_grid())
-print(teste.percolates())
+perco = Percolation((3,5))
+m = max(perco.shape)
+lit = random.sample(list(product(range(m), repeat =2)), k = m**2)
+
+for i in lit:
+    i,j=i
+    if not (perco.percolates()):
+        try:
+            perco.open(i,j)
+            print('\n', perco)
+        except IndexError:
+            pass

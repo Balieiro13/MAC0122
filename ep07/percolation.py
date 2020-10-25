@@ -77,11 +77,7 @@ class Percolation:
         return False
     
     def no_open(self):
-        sum = 0
-        for i in np.reshape(self.data, self.data.size):
-            if i == OPEN or i == FULL:
-                sum += 1
-        return sum
+        return np.count_nonzero(self.data==2) + np.count_nonzero(self.data==1)
 
     def open(self, lin, col):
         if self.data[lin, col] == BLOCKED:

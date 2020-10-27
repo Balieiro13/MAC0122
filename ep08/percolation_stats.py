@@ -56,11 +56,12 @@ class PercolationStats:
         self.T = T
         self.exper = []
         for i in range(T):
-            self.tests()
+            self.test()
 
-    def tests(self):
+    def test(self):
         m = max(self.shape)
-        rand = random.sample(list(product(range(m), repeat =2)), k=m**2)
+        rand = list(product(range(m), repeat =2))
+        random.shuffle(rand)
         perco = Percolation(self.shape)
         for i in rand:
             l,c = i
@@ -93,13 +94,15 @@ class PercolationStats:
 
     def confidenceLow(self):
         mean = self.mean()
+        std = self.stddev()
         raizT = math.sqrt(self.T)
-        cLow = mean - (1.96/raizT)
+        cLow = mean - (std/raizT)
         return cLow
 
     def confidenceHigh(self):
         mean = self.mean()
+        std = self.stddev()
         raizT = math.sqrt(self.T)
-        cHigh = mean + (1.96/raizT)
+        cHigh = mean + (std/raizT)
         return cHigh
 

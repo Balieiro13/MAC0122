@@ -89,7 +89,7 @@ class PercolationStats:
     def stddev(self):
         std = np.array([self.no_abertos()])
         std = std / (self.shape[0]*self.shape[1])
-        stddev = std.std()
+        stddev = std.std(ddof=1)
         return stddev
 
     def confidenceLow(self):

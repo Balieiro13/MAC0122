@@ -39,12 +39,9 @@ class Fracao:
 def mdc(num, den):
     ''' (int, int) -> int
     '''
-    r = num%den
-    while r != 0:
-        num = den
-        den = r
-        r = num % den
-    return den    
+    if den == 0 : return num
+
+    return mdc(den, num%den)
 
 #################################################    
 A,B,C,D= int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4])

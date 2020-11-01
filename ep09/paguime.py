@@ -53,19 +53,30 @@ class Paguime:
     def __init__(self, saldo):
         self.saldo = saldo
         self.valor = saldo[:,0]
-        self.quantidade = saldo[:,1]
+        self.quant = saldo[:,1]
+        self.cache = self.valor.copy()
+        self.pay = np.zeros(self.valor.size, int)
 
     def __str__(self):
         s = str(self.saldo)
         return s
 
     def pague(self, valor):
+        if valor == 0: return None
+        qnt = self.quant
+
         if valor in self.valor:
-            c = np.where(self.valor == valor)
-            self.quantidade[c[0][0]] -= 1
-            return self.saldo
+            c = np.where(self.cache == valor)
+            if qnt[c[0][0]] != 0:
+                self.quant[c[0][0]] -= 1
+                self.pay[c[0][0]] += 1
+                return np.vstack((self.valor, self.pay)).T
+            else:
+                self.cache[c[0][0]] = 0
+            
+        n = np.where(np.less(self.valor, valor))
+        qnt[n[0][0]] -= 1
+        self.pay[n[0][0]] += 1
+        return self.pague(valor%self.valor[n[0][0]])
+        
 
-
-
-s = np.array([[5,2], [3,1]])
-maq = Paguime(s)

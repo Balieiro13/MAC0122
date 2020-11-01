@@ -46,8 +46,8 @@ from numpymutil import mostre_video
 from numpymutil import salve_video
 
 # Escreva aqui outras constantes que desejar
-ALTURA  = 240
-LARGURA = 360
+ALTURA  = 1920
+LARGURA = 1080
 BLACK = 0
 WHITE = 250
 

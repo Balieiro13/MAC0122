@@ -1,3 +1,5 @@
+import sys
+
 def fibonacci(n):
     cache = [0]*(n+1)
     cache[0] = 0
@@ -10,3 +12,6 @@ def fibonacciRC(n, cache):
     cache[n-1] = fibonacciRC(n-1, cache)
     cache[n] = cache[n-1]+cache[n-2]
     return cache[n]
+
+N = int(sys.argv[1])
+print(fibonacci(N))

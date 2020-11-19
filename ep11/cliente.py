@@ -69,8 +69,9 @@ def mergeX(v, e, m, d):
 
 def mergesortX(v, e=None, d=None):
     c = 0
-    if (e is None and d is None):
+    if (e is None):
         e = 0
+    if (d is None):
         d = len(v)
     if (e < d - 1):
         m = (e + d) // 2
@@ -120,7 +121,6 @@ class Cliente:
         return indice
 
 ###################################funções auxiliares##################################
-
 def where(w, v):
     whr =[]
     for i in range(len(v)):
@@ -141,11 +141,15 @@ def insertSort(arr):
         arr[j + 1] = key
     return d
 
-def whereX(w, v):
+def ltodi(v):
+    ind = {v[i] : i for i in range(len(v))}
+    return ind
+
+def whereX(v, w):
+    dv = ltodi(v)
     whr = []
-    for i in range(len(v)):
-        try:
-            whr.append(w.index(v[i]))
-        except ValueError:
-            continue
+    for i in w:
+        x = dv.get(i)
+        if x != None:
+            whr.append(dv[i])
     return whr

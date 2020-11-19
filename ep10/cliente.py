@@ -88,7 +88,7 @@ def insertSort(arr):
 
 def where(v, w):
     whr =[]
-    for i in range(len(w)):
+    for i in range(len(v)):
         for j in range(len(w)):
             if (v[i] == w[j]):
                 whr.append(j)

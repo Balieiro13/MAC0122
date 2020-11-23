@@ -49,7 +49,7 @@ class Paguime:
         o tipo e quantidade disponíveis de cada fcoin e atende os 
         pagamentos quando possível.
     '''
-    
+
     def __init__(self, saldo):
         self.saldo = saldo
         self.valor = saldo[:,0]
@@ -62,21 +62,25 @@ class Paguime:
         return s
 
     def pague(self, valor):
+
+        if valor == 0 and np.all(self.pay ==0):
+            return np.vstack((self.valor, self.pay)).T
         if valor == 0: return None
-        qnt = self.quant
 
         if valor in self.valor:
             c = np.where(self.cache == valor)
-            if qnt[c[0][0]] != 0:
+            if self.quant[c[0][0]] != 0:
                 self.quant[c[0][0]] -= 1
                 self.pay[c[0][0]] += 1
-                return np.vstack((self.valor, self.pay)).T
+                sharingan = self.pay.copy()
+                self.pay *= 0
+                return np.vstack((self.valor, sharingan)).T
             else:
                 self.cache[c[0][0]] = 0
-            
-        n = np.where(np.less(self.valor, valor))
-        qnt[n[0][0]] -= 1
+
+        n = np.where(np.logical_and(self.cache < valor, self.quant > 0))
+        self.quant[n[0][0]] -= 1
         self.pay[n[0][0]] += 1
         return self.pague(valor%self.valor[n[0][0]])
-        
+
 

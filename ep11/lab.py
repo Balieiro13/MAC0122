@@ -1,5 +1,5 @@
 # importa a classe Cliente e as funções mergeX() e mergesortX()
-from cliente import *
+from dist import *
 
 # para teste da classe Cliente
 import random  
@@ -37,10 +37,10 @@ def main(args=None):
 
         # cronometre tempo de distancia()
         inicio = time.time()
-        dist = cliente0.distancia(cliente1)
+        dist = cliente0.distanciaX(cliente1)
         fim = time.time()
         print("%10.3fs"%(fim-inicio), end="")
-        
+
         # cronometre tempo de distanciaX()
         inicio = time.time()
         distX = cliente0.distanciaX(cliente1)

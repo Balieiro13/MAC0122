@@ -41,10 +41,38 @@
     Descrição de ajuda ou indicação de fonte:
 
 '''
+from itertools import product
 
 class MarkovModel:
-    def __initi__(self, k, s):
-        ''' recebe um (int) e uma (str) e constrói uma representação
-        do modelo de Markov de k-ésima ordem da string corpus
-        '''
+    def __init__(self, k, s):
+        self.corpus = s
+        self.K = k
+        self.alphabet = alpha(s)
+        self.num = {}
 
+    def alphabet(self):
+        s = ''
+        for i in self.alphabet:
+            s += i
+        return s
+
+    def N(self, t):
+        s = self.corpus + self.corpus[:len(t)-1]
+        ans = sum (1 for i in range(len(s))
+                if s.startswith(t, i))
+        return ans
+
+
+
+
+
+
+
+#########################################################################################################################
+def alpha(s):
+    alfa = []
+    for i in s:
+        if (i not in alfa):
+            alfa.append(i)
+    alfa.sort()
+    return alfa

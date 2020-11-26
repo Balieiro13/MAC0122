@@ -48,17 +48,40 @@ class MarkovModel:
         self.corpus = s
         self.K = k
         self.alpha = letra(s)
-        self.num = {}
+
+        self.k_model = {''.join(p) : self.N(''.join(p)) 
+                for p in product(self.alpha, repeat = k) 
+                if self.N(''.join(p)) != 0}
+
+        self.k1_model = {''.join(p) : self.N(''.join(p)) 
+                for p in product(self.alpha, repeat = k+1) 
+                if self.N(''.join(p)) != 0}
+
+    def __str__(self): 
+        s = f"alfabeto tem {len(self.alpha)} símbolos\n"
+        for i,j in self.k_model.items():
+            s += f"'{i}'" + '\t' + str(j) + '\n'
+        for k,l in self.k1_model.items():
+            s += f"'{k}'" + '\t' + str(l) + '\n'
+        return s
 
     def alphabet(self):
         s = ''.join(self.alpha)
         return s
 
     def N(self, t):
-        s = self.corpus + self.corpus[:len(t)-1]
+        if (len(t) > 0):
+            s = self.corpus + self.corpus[:len(t)-1]
+        else:
+            s = self.corpus
         ans = sum (1 for i in range(len(s))
                 if s.startswith(t, i))
         return ans
+
+    def laplace(self, t):
+        lap = (self.N(t) + 0.5) / (self.N(t[:-1]) + (0.5*len(self.alpha)))
+        return lap
+        
 
 #########################################################################################################################
 

@@ -47,13 +47,11 @@ class MarkovModel:
     def __init__(self, k, s):
         self.corpus = s
         self.K = k
-        self.alphabet = alpha(s)
+        self.alpha = letra(s)
         self.num = {}
 
     def alphabet(self):
-        s = ''
-        for i in self.alphabet:
-            s += i
+        s = ''.join(self.alpha)
         return s
 
     def N(self, t):
@@ -62,17 +60,15 @@ class MarkovModel:
                 if s.startswith(t, i))
         return ans
 
-
-
-
-
-
-
 #########################################################################################################################
-def alpha(s):
-    alfa = []
+
+def letra(s):
+    '''recebe uma (str) e retorna uma 
+    (list) com os chars sem repetição'''
+    alfa = set()
     for i in s:
-        if (i not in alfa):
-            alfa.append(i)
-    alfa.sort()
-    return alfa
+        item = i
+        alfa.add(item)
+    lst = list(alfa)
+    lst.sort()
+    return lst

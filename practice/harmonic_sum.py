@@ -13,17 +13,17 @@ def MDC(n,m):
         n = m
         m = r
     return n
-    
-    
+
+
 def simplifique (n,m):
     div = MDC(n,m)
-    
+
     return (n//div,m//div)
 
 ''' soma de harmônicos '''
 
 def soma_frac(n1,d1,n2,d2):
-    
+
     fracn = d2*n1 + d1*n2
     fracd = d1*d2
     return simplifique(fracn, fracd)
@@ -37,6 +37,6 @@ def soma_har(n):
 
 def harm(n):
     summ = soma_har(n)
-    
+
     return summ[0]/summ[1]
-    
+

@@ -70,10 +70,9 @@ class MarkovModel:
         return s
 
     def N(self, t):
+        s = self.corpus
         if (len(t) > 0):
-            s = self.corpus + self.corpus[:len(t)-1]
-        else:
-            s = self.corpus
+            s += s[:len(t) - 1]
         ans = sum (1 for i in range(len(s))
                 if s.startswith(t, i))
         return ans
